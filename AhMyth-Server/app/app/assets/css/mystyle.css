@@ -1,3 +1,50 @@
+:root {
+  --foreground: #11111b;
+  --background: #ffffff;
+  --background-color: rgb(241 245 249);
+}
+.dark {
+  --background: #11111b;
+  --background-1: #313244;
+  --background-2: #9399b2;
+  --foreground: #dce0e8;
+  --border: #2f2f49;
+
+
+}
+.dark .black{
+  background-color: #2f2f49!important;
+}
+
+.dark .table th{
+  background-color: var(--background-1)!important;
+  color: var(--foreground)!important;
+  border: none!important;
+}
+.dark .table{
+  border: none!important;
+}
+.bg{
+  background-color: var(--background)!important;
+  color: var(--foreground)!important;
+}
+.border{
+  border: 1px var(--border) solid!important;
+}
+.bg1{
+  background-color: var(--background-1)!important;
+  color: var(--foreground)!important;
+}
+
+.bg2{
+  background-color: var(--background-2)!important;
+}
+.bg2::placeholder{
+  color: #11111b!important;
+}
+
+
+
 .full {
   height: 100%;
   width: 100%;

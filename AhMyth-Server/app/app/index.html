@@ -37,11 +37,11 @@
 
 </head>
 
-<body ng-controller="AppCtrl" class="draggable">
+<body ng-controller="AppCtrl" class="draggable bg dark">
 
-    <div class="ui top attached tabular menu">
-        <a class="item active notDraggable" data-tab="first"><i class="large eye icon"></i>Victims</a>
-        <a class="item notDraggable" data-tab="second"><i class="large green android icon"></i>APK Builder</a>
+    <div class="ui top attached tabular menu bg">
+        <a class="item active notDraggable bg" data-tab="first"><i class="large eye icon"></i>Victims</a>
+        <a class="item notDraggable bg" data-tab="second"><i class="large green android icon"></i>APK Builder</a>
         <div class="ui right mini text menu notDraggable">
             <button class=" ui circular orange button" ng-click="minimize()"
                 style="font-size: 6px;height: 17px"></button>
@@ -50,26 +50,27 @@
         </div>
     </div>
 
-    <div class="ui bottom attached tab segment active h60 notDraggable" data-tab="first">
-        <div class="ui grid h100">
+    <div class="ui bottom attached bg tab border segment active h60 notDraggable" data-tab="first">
+        <button ng-click="ChangeTheme()" class="ui labeled icon black button">Switch</button>
+        <div class="ui bg grid h100">
             <div class="row h30">
                 <div class="column">
-                    <div class="ui horizontal segments">
-                        <div class="ui segment">
+                    <div class="ui horizontal border segments">
+                        <div class="ui bg segment">
                             <h2 class="ui left floated header">
                                 <img class="ui image" src="assets/img/VictimsLab.png">
-                                <div class="content">
+                                <div class="content bg">
                                     VICTIMS LAB
                                 </div>
                             </h2>
                         </div>
-                        <div class="ui center aligned segment">
+                        <div class="ui bg center aligned segment">
                             <div style="line-height: 70px">
                                 <div class="ui right floated labeled input">
-                                    <div class="ui label">
+                                    <div class="ui black label">
                                         Port
                                     </div>
-                                    <input type="text" ng-model="port" placeholder="Default is 42474">
+                                    <input type="text" ng-model="port" class="bg2" placeholder="Default is 42474">
                                 </div>
                                 <button ng-click="clearLogs(); Listen(port)"
                                     class="ui labeled icon black button"><i class="terminal icon"></i>Listen</button>

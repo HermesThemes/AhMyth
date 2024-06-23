@@ -57,6 +57,8 @@ app.controller("AppCtrl", ($scope) => {
         window.minimize();
     };
 
+
+
     $appCtrl.maximize = () => {
         if (window.isMaximized()) {
             window.unmaximize(); // Restore the window size
@@ -64,6 +66,17 @@ app.controller("AppCtrl", ($scope) => {
             window.maximize(); // Maximize the window
         }
     };
+
+
+    // switch between dark and light theme
+    $appCtrl.ChangeTheme = () => {
+        if(document.body.classList.contains('dark')){
+            document.body.className = document.body.className.replace("dark","");
+        }
+        else{
+            document.body.classList.add("dark");
+        }
+    }
 
     // when user clicks Listen button
     $appCtrl.Listen = (port) => {
