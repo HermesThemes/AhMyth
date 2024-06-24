@@ -13,6 +13,7 @@
             window.module = module;
             module = undefined;
         }
+
     </script>
 
 
@@ -43,6 +44,11 @@
         <a class="item active notDraggable bg" data-tab="first"><i class="large eye icon"></i>Victims</a>
         <a class="item notDraggable bg" data-tab="second"><i class="large green android icon"></i>APK Builder</a>
         <div class="ui right mini text menu notDraggable">
+            <div class="ui toggle checkbox">
+                <input type="checkbox" ng-click="ChangeTheme()" checked name="public">
+                <label></label>
+            </div>
+            
             <button class=" ui circular orange button" ng-click="minimize()"
                 style="font-size: 6px;height: 17px"></button>
             <button class="ui circular green button" ng-click="maximize()" style="font-size: 6px;height: 17px"></button>
@@ -51,7 +57,7 @@
     </div>
 
     <div class="ui bottom attached bg tab border segment active h60 notDraggable" data-tab="first">
-        <button ng-click="ChangeTheme()" class="ui labeled icon black button">Switch</button>
+        
         <div class="ui bg grid h100">
             <div class="row h30">
                 <div class="column">
@@ -119,8 +125,8 @@
         </div>
     </div>
 
-    <div class="ui bottom attached tab segment h60 notDraggable" data-tab="second">
-        <div ng-include="'views/build.html'" class="full"></div>
+    <div class="ui bottom attached tab segment h60 notDraggable bg border" data-tab="second">
+        <div ng-include="'views/build.html'" class="full bg"></div>
     </div>
 
     <div class="ui bottom attached black message notDraggable" id="log">

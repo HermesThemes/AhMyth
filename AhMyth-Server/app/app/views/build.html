@@ -1,6 +1,6 @@
-<div class="ui segment h100">
+<div class="ui segment h100 bg border">
 
-    <table class="ui very compact table">
+    <table class="ui very compact table bg border">
         <thead>
             <tr class="center aligned">
                 <th colspan="2">APK Configuration</th>
@@ -13,13 +13,13 @@
                         <div class="ui black label">
                             Server IP
                         </div>
-                        <input ng-model="srcIP" type="text" placeholder="188.132.xxx.xxx">
+                        <input ng-model="srcIP" class="bg2" type="text" placeholder="188.132.xxx.xxx">
                     </div>
                 </td>
 
                 <td>
                     <div class="ui labeled fluid input ">
-                        <input ng-model="srcPort" type="number" min="1025" max="65535" placeholder="default is 42474">
+                        <input ng-model="srcPort" class="bg2" type="number" min="1025" max="65535" placeholder="default is 42474">
                         <div class="ui black label">
                             Server Port
                         </div>
@@ -36,7 +36,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="center aligned">
+            <tr class="center aligned bg">
                 <td>
                     <div class="ui checkbox">
                         <input type="checkbox" id="Permissions1" value="CameraPer">

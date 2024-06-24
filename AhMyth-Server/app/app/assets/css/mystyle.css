@@ -24,6 +24,9 @@
 .dark .table{
   border: none!important;
 }
+.dark .checkbox label{
+  color: var(--foreground)!important;
+}
 .bg{
   background-color: var(--background)!important;
   color: var(--foreground)!important;
