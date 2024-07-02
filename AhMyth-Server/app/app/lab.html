@@ -49,6 +49,10 @@
                     <a class="item">
                         <img src="assets/img/icon.png" /> </a>
                     <div class="right  menu notDraggable bg">
+                        <div class="ui toggle checkbox">
+                            <input type="checkbox" ng-click="ChangeTheme()" checked name="public">
+                            <label></label>
+                        </div>
                         <button class="ui circular green button" ng-click="maximize()"
                             style="font-size: 6px;height: 17px"></button>
                         <button class="ui circular red button" ng-click="close()"
@@ -59,8 +63,8 @@
         </div>
 
         <div class="row h15 notDraggable bg">
-            <div class="sixteen wide bg column">
-                <div class="ui mini border bg labeled icon fluid seven item menu">
+            <div class="sixteen wide border bg column">
+                <div class="ui mini borderless bg labeled icon fluid seven item menu">
                     <a class="item" ng-click="goToPage('camera')">
                         <i class="red photo icon"></i> Camera
                     </a>

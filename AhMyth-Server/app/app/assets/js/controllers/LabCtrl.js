@@ -71,6 +71,16 @@ app.controller("LabCtrl", function ($scope, $rootScope, $location) {
     };
 
 
+    // switch between dark and light theme
+    $labCtrl.ChangeTheme = () => {
+        if(document.body.classList.contains('dark')){
+            document.body.className = document.body.className.replace("dark","");
+        }
+        else{
+            document.body.classList.add("dark");
+        }
+    }
+
     $rootScope.Log = (msg, status) => {
         var fontColor = CONSTANTS.logColors.DEFAULT;
         if (status == CONSTANTS.logStatus.SUCCESS)

@@ -1,9 +1,9 @@
-<div class="ui {{load}} segment h100" style="overflow: scroll; height: 400px;" id="parent">
-    <table class="ui  very compact striped table full">
+<div class="ui {{load}} segment h100 bg" style="overflow: scroll; height: 400px;" id="parent">
+    <table class="ui  very compact bg striped table full">
         <thead>
             <tr>
                 <th colspan="2">
-                    <div class="ui label">
+                    <div class="ui black label">
                         <i class="mail icon"></i> <span ng-bind="logsSize"></span>
                         <span class="detail">Logs</span>
                     </div>
@@ -19,7 +19,7 @@
             </tr>
         </thead>
         <tbody infinite-scroll="increaseLimit()" infinite-scroll-container='"#parent"'>
-            <tr ng-repeat="call in callsList | limitTo:barLimit">
+            <tr ng-repeat="call in callsList | limitTo:barLimit" class="border-bottom">
                 <td ng-bind="call.phoneNo"></td>
                 <td>
                     <span ng-if="call.name==null">Unknown</span>
