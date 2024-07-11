@@ -1,72 +1,87 @@
 :root {
-  --foreground: #11111b;
-  --background: #ffffff;
-  --background-color: rgb(241 245 249);
-}
-.dark {
-  --background: #11111b;
-  --background-1: #313244;
-  --background-2: #585b70;
-  --foreground: #cdd6f4;
-  --border: #2f2f49;
-
-
-}
-.dark .black{
-  background-color: #2f2f49!important;
-}
-.dark #log{
-  background-color: #181825!important;
-}
-.dark .segment{
-  background-color: var(--background)!important;
-  color: var(--foreground)!important;
-}
-.dark .item, .menu, .draggable{
-  background-color: var(--background)!important;
-  color: var(--foreground)!important;
+  color-scheme: light dark;
 }
 
-.dark .table th{
-  background-color: var(--background-1)!important;
-  color: var(--foreground)!important;
-  border: none!important;
-}
-.dark .table,td{
-  color: var(--foreground)!important;
-}
-.dark .table{
-  border: none!important;
-}
-.dark .checkbox label{
-  color: var(--foreground)!important;
-}
-.dark .label{
-  color: var(--foreground)!important;
-}
-.bg{
-  background-color: var(--background)!important;
-  color: var(--foreground)!important;
+@media (prefers-color-scheme: light) {
+  :root {
+    --foreground: #11111b;
+    --background: #ffffff;
+    --background-color: rgb(241 245 249);
+  }
 }
 
-.border{
-  border: 1px var(--border) solid!important;
+@media (prefers-color-scheme: dark) {
+  .dark {
+    --background: #11111b;
+    --background-1: #313244;
+    --background-2: #585b70;
+    --foreground: #cdd6f4;
+    --border: #2f2f49;
+  
+  
+  }
+  .dark .black{
+    background-color: #2f2f49!important;
+  }
+  .dark #log{
+    background-color: #181825!important;
+  }
+  .dark .segment{
+    background-color: var(--background)!important;
+    color: var(--foreground)!important;
+  }
+  .dark .item, .menu, .draggable{
+    background-color: var(--background)!important;
+    color: var(--foreground)!important;
+  }
+  
+  .dark .table th{
+    background-color: var(--background-1)!important;
+    color: var(--foreground)!important;
+    border: none!important;
+  }
+  .dark .table,td{
+    color: var(--foreground)!important;
+  }
+  .dark .table{
+    border: none!important;
+  }
+  .dark .checkbox label{
+    color: var(--foreground)!important;
+  }
+  .dark .label{
+    color: var(--foreground)!important;
+  }
+  .bg{
+    background-color: var(--background)!important;
+    color: var(--foreground)!important;
+  }
+  
+  .border{
+    border: 1px var(--border) solid!important;
+  }
+  
+  .border-bottom{
+    border-bottom: 1px var(--border) solid!important;
+  }
+  .bg1{
+    background-color: var(--background-1)!important;
+    color: var(--foreground)!important;
+  }
+  
+  .bg2{
+    background-color: var(--background-2)!important;
+  }
+  .bg2::placeholder{
+    color: #11111b!important;
+  }
 }
 
-.border-bottom{
-  border-bottom: 1px var(--border) solid!important;
-}
-.bg1{
-  background-color: var(--background-1)!important;
-  color: var(--foreground)!important;
-}
 
-.bg2{
-  background-color: var(--background-2)!important;
-}
-.bg2::placeholder{
-  color: #11111b!important;
-}
+
+
+
+
 
 
 
