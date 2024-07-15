@@ -66,10 +66,8 @@ app.controller("AppCtrl", ($scope) => {
     };
 
     $appCtrl.switch = async() => {
-        console.log("enter")
         isDarkMode = await ipcRenderer.invoke('dark-mode:toggle')
         document.getElementById('theme-source').innerHTML = isDarkMode ? 'Dark' : 'Light'
-        console.log(leave)
     }
     
 

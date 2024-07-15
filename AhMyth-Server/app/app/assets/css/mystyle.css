@@ -10,7 +10,13 @@
   }
 }
 
+.dark .notify{
+  background-color: var(--background)!important;
+  color: var(--foreground)!important;
+}
+
 @media (prefers-color-scheme: dark) {
+
   .dark {
     --background: #11111b;
     --background-1: #313244;
